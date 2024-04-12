@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="color_primary">#54292A</color>
     <color name="labelTextColor">#FF000000</color>
+    <color name="grey">#353B41</color>
 </resources>
