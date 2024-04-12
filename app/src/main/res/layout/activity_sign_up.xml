@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/create_account"
-        android:textColor="@color/black"
+        android:textColor="@color/grey"
         android:textSize="24sp"
         android:gravity="center"
         android:padding="10dp"/>
@@ -22,29 +22,35 @@
     <EditText
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_margin="16dp"
         android:hint="@string/full_name"
         android:autofillHints="name"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/email_address"
-        android:autofillHints="emailAddress"
-        android:inputType="textEmailAddress" />
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:autofillHints="emailAddress"
+            android:hint="@string/email_address"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"/>
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_margin="16dp"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:autofillHints="password" />
+        android:autofillHints="password"
+        android:textColor="@color/black"/>
 
         <Button
             android:id="@+id/signUpButton"
@@ -58,5 +64,17 @@
             android:textColor="@color/white"
             android:background="@color/color_primary"
             android:text="@string/sign_up" />
+
+        <TextView
+            android:id="@+id/signInText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/already_have_account"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/grey"
+            android:textSize="18sp"
+            android:textStyle="normal"/>
+
     </LinearLayout>
 </RelativeLayout>
