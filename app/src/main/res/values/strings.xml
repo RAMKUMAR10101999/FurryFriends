@@ -9,4 +9,10 @@
     <string name="sign_up">Sign Up</string>
     <string name="create_account">Create a new account</string>
     <string name="already_have_account">Already have an account? <u>Sign-In</u></string>
+    <string name="listing">Listing</string>
+    <string name="donate">Donate</string>
+    <string name="first_aid">First Aid</string>
+    <string name="training">Training</string>
+    <string name="profile">Profile</string>
+    <string name="welcome">WELCOME</string>
 </resources>
