@@ -2,10 +2,12 @@ package com.example.furryfriends;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
     private static final int SPLASH_TIME_OUT = 5000; // 5 seconds
 
