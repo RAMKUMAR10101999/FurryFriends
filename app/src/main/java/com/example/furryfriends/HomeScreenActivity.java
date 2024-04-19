@@ -1,5 +1,6 @@
 package com.example.furryfriends;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         donateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle donate button click
+                Intent intent = new Intent(HomeScreenActivity.this, DonateActivity.class);
+                startActivity(intent);
             }
         });
 
