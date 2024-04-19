@@ -3,13 +3,11 @@ package com.example.furryfriends;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,9 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.util.Objects;
 
 public class DonateActivity extends AppCompatActivity {
 
@@ -27,7 +23,7 @@ public class DonateActivity extends AppCompatActivity {
 
     private EditText etProductName, etDescription, etUsername, etLocation, etContact;
     private ImageView ivProductImage;
-    private Button btnSelectImage, btnDonate;
+    private Button btnSelectImage;
 
     private Uri imageUri;
     private DatabaseReference databaseReference;
@@ -45,7 +41,7 @@ public class DonateActivity extends AppCompatActivity {
         etContact = findViewById(R.id.etContact);
         ivProductImage = findViewById(R.id.ivProductImage);
         btnSelectImage = findViewById(R.id.btnSelectImage);
-        btnDonate = findViewById(R.id.btnDonate);
+        Button btnDonate = findViewById(R.id.btnDonate);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("pet_products");
         storageReference = FirebaseStorage.getInstance().getReference("product_images");
