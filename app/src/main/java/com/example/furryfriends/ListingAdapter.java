@@ -1,6 +1,7 @@
 package com.example.furryfriends;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,14 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
     private List<PetProduct> mPetProductList;
     private Context mContext;
     private OnItemClickListener mListener;
-    private ImageView favoriteIcon;
-    private boolean isFavorite = false; // Track favorite status
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "MyPrefsFile";
+    private static final String PREF_FAVORITE_PREFIX = "favorite_";
 
     public ListingAdapter(Context context) {
         mContext = context;
         mPetProductList = new ArrayList<>();
+        sharedPreferences = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -52,13 +55,6 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
         }
     }
 
-    public PetProduct getItem(int position) {
-        if (position >= 0 && position < mPetProductList.size()) {
-            return mPetProductList.get(position);
-        }
-        return null;
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -70,15 +66,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PetProduct petProduct = mPetProductList.get(position);
         holder.bind(petProduct);
-        holder.setupFavoriteIcon(petProduct);
-
-        holder.mFavoriteButton.setOnClickListener(v -> {
-            if (position != RecyclerView.NO_POSITION && mListener != null) {
-                mListener.onFavoriteClick(mPetProductList.get(position));
-            }
-        });
     }
-
 
     @Override
     public int getItemCount() {
@@ -90,7 +78,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
         private TextView mProductDescription;
         private TextView mLocation;
         private ImageView mProductImage;
-        private ImageView mFavoriteButton; // Add favorite button ImageView
+        private ImageView mFavoriteButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -107,12 +95,11 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
                 }
             });
 
-            // Set click listener for favorite button
             mFavoriteButton.setOnClickListener(view -> {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && mListener != null) {
-                        mListener.onFavoriteClick(mPetProductList.get(position));
-                    }
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && mListener != null) {
+                    mListener.onFavoriteClick(mPetProductList.get(position));
+                }
             });
         }
 
@@ -121,19 +108,20 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
             mProductDescription.setText(petProduct.getProductDescription());
             mLocation.setText(petProduct.getLocation());
             Glide.with(mContext).load(petProduct.getImageUrl()).into(mProductImage);
-        }
 
-        public void setupFavoriteIcon(PetProduct petProduct) {
+            boolean isFavorite = sharedPreferences.getBoolean(PREF_FAVORITE_PREFIX + petProduct.getProductId(), false);
+            petProduct.setFavorite(isFavorite);
+
             if (petProduct.isFavorite()) {
-                mFavoriteButton.setImageResource(R.drawable.ic_fav_heart_closed); // Set filled favorite icon if already favorite
+                mFavoriteButton.setImageResource(R.drawable.ic_fav_heart_closed);
             } else {
-                mFavoriteButton.setImageResource(R.drawable.ic_fav); // Set empty favorite icon if not favorite
+                mFavoriteButton.setImageResource(R.drawable.ic_fav);
             }
         }
     }
 
     public interface OnItemClickListener {
         void onItemClick(PetProduct petProduct);
-        void onFavoriteClick(PetProduct petProduct); // Add favorite button click listener
+        void onFavoriteClick(PetProduct petProduct);
     }
 }

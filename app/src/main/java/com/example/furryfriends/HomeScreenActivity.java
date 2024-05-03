@@ -77,7 +77,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_favorite) {
             // Handle favorite button click
-            Intent intent = new Intent(HomeScreenActivity.this, FavoriteDonationsActivity.class);
+            Intent intent = new Intent(HomeScreenActivity.this, WishListActivity.class);
             startActivity(intent);
             return true;
         }

@@ -1,5 +1,5 @@
 package com.example.furryfriends;
-import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -16,10 +16,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class ListingActivity extends AppCompatActivity implements ListingAdapter.OnItemClickListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class WishListActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private ListingAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private WishListAdapter mAdapter;
+    private List<PetProduct> mWishlistItems;
 
     private DatabaseReference mDatabaseReference;
     private SharedPreferences sharedPreferences;
@@ -29,18 +32,15 @@ public class ListingActivity extends AppCompatActivity implements ListingAdapter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listing);
+        setContentView(R.layout.activity_wish_list);
 
-        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView = findViewById(R.id.wishlist_recyclerView);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new ListingAdapter(this);
+        mWishlistItems = new ArrayList<>();
+        mAdapter = new WishListAdapter(this, mWishlistItems);
         mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(this);
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("pet_products");
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -49,8 +49,9 @@ public class ListingActivity extends AppCompatActivity implements ListingAdapter
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 PetProduct petProduct = dataSnapshot.getValue(PetProduct.class);
-                if (petProduct != null) {
-                    mAdapter.add(petProduct);
+                if (petProduct != null && isProductFavorited(petProduct.getProductId())) {
+                    mWishlistItems.add(petProduct);
+                    mAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -58,7 +59,15 @@ public class ListingActivity extends AppCompatActivity implements ListingAdapter
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 PetProduct petProduct = dataSnapshot.getValue(PetProduct.class);
                 if (petProduct != null) {
-                    mAdapter.update(petProduct);
+                    if (isProductFavorited(petProduct.getProductId())) {
+                        if (!mWishlistItems.contains(petProduct)) {
+                            mWishlistItems.add(petProduct);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        mWishlistItems.remove(petProduct);
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
@@ -66,7 +75,8 @@ public class ListingActivity extends AppCompatActivity implements ListingAdapter
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 PetProduct petProduct = dataSnapshot.getValue(PetProduct.class);
                 if (petProduct != null) {
-                    mAdapter.remove(petProduct);
+                    mWishlistItems.remove(petProduct);
+                    mAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -76,35 +86,12 @@ public class ListingActivity extends AppCompatActivity implements ListingAdapter
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(ListingActivity.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WishListActivity.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    @Override
-    public void onItemClick(PetProduct petProduct) {
-        if (petProduct != null) {
-            Intent intent = new Intent(this, DetailsActivity.class);
-            intent.putExtra("selected_product", petProduct);
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "Error: Selected product is null", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onFavoriteClick(PetProduct petProduct) {
-        if (petProduct != null) {
-            boolean isFavorite = !petProduct.isFavorite();
-            petProduct.setFavorite(isFavorite);
-
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(PREF_FAVORITE_PREFIX + petProduct.getProductId(), isFavorite);
-            editor.apply();
-
-            mAdapter.update(petProduct);
-        } else {
-            Toast.makeText(this, "Error: Product not found", Toast.LENGTH_SHORT).show();
-        }
+    private boolean isProductFavorited(String productId) {
+        return sharedPreferences.getBoolean(PREF_FAVORITE_PREFIX + productId, false);
     }
 }
