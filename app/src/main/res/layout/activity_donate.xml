@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/ivProductImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:scaleType="centerCrop"
         android:layout_below="@id/ivProductImage"
         android:layout_centerHorizontal="true"
@@ -77,17 +77,29 @@
         android:autofillHints="Phone"
         android:inputType="phone" />
 
-    <Button
-        android:id="@+id/btnDonate"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center"
-        android:background="@drawable/rounded_button_background"
-        android:fontFamily="sans-serif"
+    <RelativeLayout
+        android:id="@+id/btnDonateContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/etContact"
-        android:layout_centerHorizontal="true"   android:textColor="@color/white"
-        android:layout_marginTop="20dp"
-        android:text="@string/donate" />
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="16dp"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/btnDonate"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_button_background"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            android:text="@string/donate" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
