@@ -34,4 +34,5 @@
     <string name="location">Location</string>
     <string name="favorite">Favorite</string>
     <string name="todo">TODO</string>
+    <string name="search_for_pets_stuff">Search</string>
 </resources>

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,8 +18,9 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHolder> {
+public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHolder> implements Filterable {
     private List<PetProduct> mPetProductList;
+    private List<PetProduct> mPetProductListFiltered;
     private Context mContext;
     private OnItemClickListener mListener;
     private SharedPreferences sharedPreferences;
@@ -27,6 +30,8 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
     public ListingAdapter(Context context) {
         mContext = context;
         mPetProductList = new ArrayList<>();
+        mPetProductListFiltered = new ArrayList<>();
+        mPetProductListFiltered.addAll(mPetProductList);
         sharedPreferences = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
@@ -36,6 +41,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
 
     public void add(PetProduct petProduct) {
         mPetProductList.add(petProduct);
+        mPetProductListFiltered.add(petProduct);
         notifyItemInserted(mPetProductList.size() - 1);
     }
 
@@ -43,6 +49,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
         int index = mPetProductList.indexOf(petProduct);
         if (index != -1) {
             mPetProductList.set(index, petProduct);
+            mPetProductListFiltered.set(index, petProduct);
             notifyItemChanged(index);
         }
     }
@@ -51,6 +58,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
         int index = mPetProductList.indexOf(petProduct);
         if (index != -1) {
             mPetProductList.remove(index);
+            mPetProductListFiltered.remove(index);
             notifyItemRemoved(index);
         }
     }
@@ -64,13 +72,45 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PetProduct petProduct = mPetProductList.get(position);
+        PetProduct petProduct = mPetProductListFiltered.get(position);
         holder.bind(petProduct);
     }
 
     @Override
     public int getItemCount() {
-        return mPetProductList.size();
+        return mPetProductListFiltered.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String searchText = constraint.toString().toLowerCase().trim();
+                List<PetProduct> filteredList = new ArrayList<>();
+
+                if (searchText.isEmpty()) {
+                    filteredList.addAll(mPetProductList);
+                } else {
+                    for (PetProduct product : mPetProductList) {
+                        if (product.getProductName().toLowerCase().contains(searchText)) {
+                            filteredList.add(product);
+                        }
+                    }
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mPetProductListFiltered.clear();
+                mPetProductListFiltered.addAll((List<PetProduct>) results.values);
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -91,14 +131,14 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
             itemView.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && mListener != null) {
-                    mListener.onItemClick(mPetProductList.get(position));
+                    mListener.onItemClick(mPetProductListFiltered.get(position));
                 }
             });
 
             mFavoriteButton.setOnClickListener(view -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && mListener != null) {
-                    mListener.onFavoriteClick(mPetProductList.get(position));
+                    mListener.onFavoriteClick(mPetProductListFiltered.get(position));
                 }
             });
         }
