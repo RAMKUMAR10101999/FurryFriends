@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "666518258623",
+    "firebase_url": "https://furry-friends-7e95f-default-rtdb.firebaseio.com",
+    "project_id": "furry-friends-7e95f",
+    "storage_bucket": "furry-friends-7e95f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666518258623:android:a6831a8660245cf07dd70a",
+        "android_client_info": {
+          "package_name": "com.example.furryfriends"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYEvSExwAFCMI3RZIkhD6guJKozAr6dyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
