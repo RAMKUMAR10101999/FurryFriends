@@ -16,7 +16,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-
 public class DonateActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -73,6 +72,7 @@ public class DonateActivity extends AppCompatActivity {
         String username = etUsername.getText().toString().trim();
         String location = etLocation.getText().toString().trim();
         String contactDetails = etContact.getText().toString().trim();
+        boolean isFavorite = true; // Set isFavorite to true by default or based on user input
 
         if (productName.isEmpty() || productDescription.isEmpty() || username.isEmpty() || location.isEmpty() || contactDetails.isEmpty() || imageUri == null) {
             Toast.makeText(this, "Please fill in all fields and select an image", Toast.LENGTH_SHORT).show();
@@ -84,7 +84,8 @@ public class DonateActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         String imageUrl = uri.toString();
-                        PetProduct product = new PetProduct(productName, productDescription, username, location, contactDetails, imageUrl);
+                        PetProduct product = new PetProduct("your_product_id", "your_product_name", "your_product_description", "your_location", "your_image_url", true);
+
                         String productId = databaseReference.push().getKey();
                         if (productId != null) {
                             databaseReference.child(productId).setValue(product);

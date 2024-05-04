@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg1"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/FA_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="FIRSTAID"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"/>
+    <Button
+        android:id="@+id/injury_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/poisoning_button"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="sans-serif"
+        android:text="If Your Pet Is Injured, Bleeding, or Bitten"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/poisoning_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/FA_title"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="If Your Pet Is Poisoned or Exposed to Toxins"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/heatstroke_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/injury_button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="If Your Pet Has Heatstroke or Goes Into Shock"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/choking_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seizure_button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="If Your Pet Is Choking"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/breathing_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/choking_button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="If Your Pet Is Not Breathing"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/heartbeat_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/breathing_button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="If Your Pet Has No Heartbeat"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/seizure_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/heatstroke_button"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="If Your Pet Is Having a Seizure"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/white"/>
+
+</RelativeLayout>

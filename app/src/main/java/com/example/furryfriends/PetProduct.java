@@ -1,27 +1,39 @@
 package com.example.furryfriends;
 
-public class PetProduct {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class PetProduct implements Parcelable {
+    private String productId; // Add productId field
     private String productName;
     private String productDescription;
-    private String username;
     private String location;
-    private String contactDetails;
     private String imageUrl;
+    private boolean isFavorite;
 
+    // Default constructor
     public PetProduct() {
-        // Required empty constructor for Firebase
+        // Required empty public constructor
     }
 
-    public PetProduct(String productName, String productDescription, String username, String location, String contactDetails, String imageUrl) {
+    // Constructor with parameters
+    public PetProduct(String productId, String productName, String productDescription, String location, String imageUrl, boolean isFavorite) {
+        this.productId = productId;
         this.productName = productName;
         this.productDescription = productDescription;
-        this.username = username;
         this.location = location;
-        this.contactDetails = contactDetails;
         this.imageUrl = imageUrl;
+        this.isFavorite = isFavorite;
     }
 
-    // Getters and setters
+    // Getters and Setters
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 
     public String getProductName() {
         return productName;
@@ -39,14 +51,6 @@ public class PetProduct {
         this.productDescription = productDescription;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -55,19 +59,56 @@ public class PetProduct {
         this.location = location;
     }
 
-    public String getContactDetails() {
-        return contactDetails;
-    }
-
-    public void setContactDetails(String contactDetails) {
-        this.contactDetails = contactDetails;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    // Parcelable implementation
+    protected PetProduct(Parcel in) {
+        productId = in.readString();
+        productName = in.readString();
+        productDescription = in.readString();
+        location = in.readString();
+        imageUrl = in.readString();
+        isFavorite = in.readByte() != 0; // Convert byte to boolean
+    }
+
+    public static final Creator<PetProduct> CREATOR = new Creator<PetProduct>() {
+        @Override
+        public PetProduct createFromParcel(Parcel in) {
+            return new PetProduct(in);
+        }
+
+        @Override
+        public PetProduct[] newArray(int size) {
+            return new PetProduct[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(productId);
+        dest.writeString(productName);
+        dest.writeString(productDescription);
+        dest.writeString(location);
+        dest.writeString(imageUrl);
+        dest.writeByte((byte) (isFavorite ? 1 : 0)); // Convert boolean to byte
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

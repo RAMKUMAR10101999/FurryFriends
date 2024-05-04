@@ -2,10 +2,13 @@ package com.example.furryfriends;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
@@ -25,7 +28,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         listingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle listing button click
+                Intent intent = new Intent(HomeScreenActivity.this, ListingActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -40,22 +44,43 @@ public class HomeScreenActivity extends AppCompatActivity {
         firstAidButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle first aid button click
+                Intent intent = new Intent(HomeScreenActivity.this, PetFirstAidActivity.class);
+                startActivity(intent);
             }
         });
 
         trainingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle training button click
+                Intent intent = new Intent(HomeScreenActivity.this, TrainingActivity.class);
+                startActivity(intent);
             }
         });
 
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle profile button click
+                Intent intent = new Intent(HomeScreenActivity.this, ProfileActivity.class);
+                startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_favorite) {
+            // Handle favorite button click
+            Intent intent = new Intent(HomeScreenActivity.this, WishListActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
